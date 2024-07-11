@@ -1,0 +1,18 @@
+{
+    "projects": {
+      "backend": {
+        "rootDirectory": "./backend",
+        "buildCommand": "npm install && npm start",
+        "outputDirectory": "./backend"
+      },
+      "frontend": {
+        "rootDirectory": "./frontend",
+        "buildCommand": "npm install && npm run build",
+        "outputDirectory": "./frontend/build"
+      }
+    },
+    "rewrites": [
+      { "source": "/api/(.*)", "destination": "/api" }
+    ]
+  }
+  

@@ -1,0 +1,17 @@
+{
+  "files": {
+    "main.css": "/static/css/main.86a5ccdf.css",
+    "main.js": "/static/js/main.a4f5d03e.js",
+    "static/js/885.f2cfac59.chunk.js": "/static/js/885.f2cfac59.chunk.js",
+    "static/media/nobel_dark.png": "/static/media/nobel_dark.42a3715070297122768a.png",
+    "static/media/beep.mp3": "/static/media/beep.37210172330c490b3141.mp3",
+    "index.html": "/index.html",
+    "main.86a5ccdf.css.map": "/static/css/main.86a5ccdf.css.map",
+    "main.a4f5d03e.js.map": "/static/js/main.a4f5d03e.js.map",
+    "885.f2cfac59.chunk.js.map": "/static/js/885.f2cfac59.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.86a5ccdf.css",
+    "static/js/main.a4f5d03e.js"
+  ]
+}
