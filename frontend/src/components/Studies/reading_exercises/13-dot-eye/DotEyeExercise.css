@@ -1,0 +1,27 @@
+.dot-eye-exercise {
+  position: relative;
+  width: 500px;
+  height: 500px;
+  display: flex;
+  justify-content: center;
+  margin: auto;
+  border: 1px solid #ccc;
+  border-radius: 50%;
+}
+
+.dot {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  background-color: rgb(180, 180, 180);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 14px;
+}
+
+.dot.active {
+  background-color: rgb(42, 42, 42);
+}

@@ -1,0 +1,24 @@
+.text-box {
+  overflow-y: auto;
+  max-height: 500px;
+}
+
+.time-display {
+  background-color: #e0e0e0;
+  padding: 10px;
+  border-radius: 5px;
+  text-align: center;
+  font-size: 1.5rem;
+  margin-top: 10px;
+}
+
+@media (max-width: 768px) {
+  .text-box {
+    width: 100%;
+    height: 300px;
+  }
+
+  .time-display {
+    font-size: 1.2rem;
+  }
+}

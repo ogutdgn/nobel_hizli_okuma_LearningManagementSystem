@@ -1,0 +1,17 @@
+.growing-hexagon-container {
+    position: relative;
+    width: 400px;
+    height: 400px;
+    display: flex;
+    justify-content: center;
+    margin: auto;
+    /* border: 1px solid #ccc;
+    border-radius: 50%; */
+  }
+  
+  .hexagon-layer {
+    fill: none;
+    stroke: black;
+    stroke-width: 2;
+  }
+  
