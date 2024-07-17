@@ -27,7 +27,6 @@
   import useUserCalls from "../../service/useUserCalls";
   import useEnrollmentCalls from "../../service/useEnrollmentCalls";
   import useAssignmentCalls from "../../service/useAssignmentCalls";
-  import './Students.css'; // Ensure to create this CSS file for custom styles
 
   const Students = () => {
     const dispatch = useDispatch();

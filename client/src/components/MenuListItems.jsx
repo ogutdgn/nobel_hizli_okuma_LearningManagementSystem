@@ -9,7 +9,7 @@ import TimelineIcon from '@mui/icons-material/Timeline';
 
 const adminIcons = [
   { icon: HomeIcon, title: "Ana Sayfa", url: "/nobelhizliokuma/admin-dashboard/" },
-  { title: "Öğrenciler", icon: PeopleAltIcon, url: "/nobelhizliokuma/admin-dashboard/ogrenciler" },
+  { title: "Kullanıcılar", icon: PeopleAltIcon, url: "/nobelhizliokuma/admin-dashboard/kullanicilar" },
   { title: "Ödevler", icon: ArticleIcon, url: "/nobelhizliokuma/admin-dashboard/odevler" },
   { title: "Egzersizler", icon: FitnessCenterIcon, url: "/nobelhizliokuma/admin-dashboard/egzersizler" },
   { title: "Kurslar", icon: SchoolIcon, url: "/nobelhizliokuma/admin-dashboard/kurslar" },

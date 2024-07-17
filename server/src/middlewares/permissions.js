@@ -19,7 +19,7 @@ module.exports = {
         } else {
 
             res.errorStatusCode = 403
-            throw new Error('NoPermission: You must login.')
+            throw new Error('Buna yetkiniz yok! Giriş yapmalısınız.')
         }
     },
 
@@ -53,7 +53,7 @@ module.exports = {
         } else {
 
             res.errorStatusCode = 403
-            throw new Error('NoPermission: You must login and to be Admin.')
+            throw new Error('Buna yetkiniz yok!')
         }
     },
 
@@ -70,7 +70,7 @@ module.exports = {
         } else {
 
             res.errorStatusCode = 403
-            throw new Error('NoPermission: You must login and to be Staff.')
+            throw new Error('Buna yetkiniz yok!')
         }
     },
 }

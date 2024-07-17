@@ -18,12 +18,15 @@ module.exports = (req, res, next) => {
     const sort = req.query?.sort ? JSON.parse(req.query.sort) : {};
 
     // PAGINATION: URL?page=1&limit=10
+    
     // LIMIT:
     let limit = Number(req.query?.limit);
     limit = limit > 0 ? limit : Number(process.env?.PAGE_SIZE || 20);
+
     // PAGE:
     let page = Number(req.query?.page);
     page = (page > 0 ? page : 1) - 1;
+
     // SKIP:
     let skip = Number(req.query?.skip);
     skip = skip > 0 ? skip : (page * limit);

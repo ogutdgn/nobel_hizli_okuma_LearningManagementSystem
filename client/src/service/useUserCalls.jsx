@@ -22,7 +22,21 @@ const useUserCalls = () => {
   const getStudents = async () => {
     dispatch(fetchStart());
     try {
-      const { data } = await axiosWithToken.get("/api/users?filter[isAdmin]=false");
+      const { data } = await axiosWithToken.get("/api/users?filter[isTeacher]=false&filter[isAdmin]=false");
+      console.log(data);
+      dispatch(fetchSuccess(data.data));
+    } catch (error) {
+      console.error("Error fetching students:", error.response?.data || error.message);
+      dispatch(fetchFail());
+      toastErrorNotify("Students could not be fetched.");
+    }
+  };
+
+  const getTeachers = async () => {
+    dispatch(fetchStart());
+    try {
+      const { data } = await axiosWithToken.get("/api/users?filter[isTeacher]=true");
+      console.log(data);
       dispatch(fetchSuccess(data.data));
     } catch (error) {
       console.error("Error fetching students:", error.response?.data || error.message);
@@ -86,7 +100,7 @@ const useUserCalls = () => {
     }
   };
 
-  return { getUsers, getStudents, postUser, updateUser, removeUser };
+  return { getUsers, getStudents, getTeachers, postUser, updateUser, removeUser };
 };
 
 export default useUserCalls;

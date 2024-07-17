@@ -4,7 +4,7 @@ import Register from "../pages/Register";
 import PrivateRouter from "./PrivateRouter";
 import Dashboard from "../pages/Dashboard";
 import HomePage from "../pages/HomePage";
-import Students from "../pages/Students/Students";
+import Users from "../pages/Users/Users";
 import StudentAssignments from "../pages/AssignmentsPage/StudentAssignments";
 import AdminAssignments from "../pages/AssignmentsPage/AdminAssignments";
 import ExercisesHome from "../pages/ExercisesPage/ExercisesHome";
@@ -43,7 +43,7 @@ const AppRouter = () => {
         <Route path="nobelhizliokuma/admin-dashboard" element={<PrivateRouter isAdminRoute={true} />}>
           <Route path="" element={<Dashboard role="admin" />}>
             <Route index element={<HomePage />} />
-            <Route path="ogrenciler" element={<Students />} />
+            <Route path="kullanicilar" element={<Users />} />
             <Route path="odevler" element={<AdminAssignments />} />
             <Route path="egzersizler" element={<ExercisesHome />} />
             <Route path="kurslar" element={<Courses />} />
