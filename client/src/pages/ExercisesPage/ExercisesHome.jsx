@@ -4,20 +4,20 @@ import { Card, CardContent, Typography, List, ListItem, ListItemText, ListItemSe
 import { Link } from "react-router-dom";
 import useStudyCalls from '../../service/useStudyCalls';
 import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const ExercisesHome = () => {
   const dispatch = useDispatch();
   const { getStudies } = useStudyCalls();
   const { fastReadingExercises, fastReadingWorkouts, fastReadingTests, loading, error } = useSelector(state => state.studies);
+  const { user } = useSelector((state) => state.auth);
+  const navigate = useNavigate();
 
   useEffect(() => {
     getStudies();
   }, [dispatch]);
 
-  fastReadingTests.map((workout, index) => {
-    console.log(index);
-    console.log(workout.title);
-  })
+  const basePath = user.isAdmin ? "/nobelhizliokuma/admin-dashboard" : user.isTeacher ? "/nobelhizliokuma/ogretmen-paneli" : "/nobelhizliokuma/ogrenci-paneli"
 
   if (loading) return <CircularProgress />;
   if (error) return <Typography color="error">{error}</Typography>;
@@ -36,7 +36,7 @@ const ExercisesHome = () => {
               </Typography>
               <List>
                 {fastReadingExercises.map((exercise, index) => (
-                  <ListItem button component={Link} to={`/nobelhizliokuma/admin-dashboard/egzersizler/${exercise.urlName}`} key={index}>
+                  <ListItem button component={Link} to={`${basePath}/egzersizler/${exercise.urlName}`} key={index}>
                     <ListItemText primary={exercise.title} />
                     {exercise.new && (
                       <ListItemSecondaryAction>
@@ -60,7 +60,7 @@ const ExercisesHome = () => {
               </Typography>
               <List>
                 {fastReadingWorkouts.map((workout, index) => (
-                  <ListItem button component={Link} to={`/nobelhizliokuma/admin-dashboard/workouts/${workout.urlName}`} key={index}>
+                  <ListItem button component={Link} to={`${basePath}/workouts/${test.urlName}`} key={index}>
                     <ListItemText primary={workout.title} />
                   </ListItem>
                 ))}
@@ -79,7 +79,7 @@ const ExercisesHome = () => {
               </Typography>
               <List>
                 {fastReadingTests.map((test, index) => (
-                  <ListItem button component={Link} to={`/nobelhizliokuma/admin-dashboard/egzersizler/${test.urlName}`} key={index}>
+                  <ListItem button component={Link} to={`${basePath}/egzersizler/${test.urlName}`} key={index}>
                     <ListItemText primary={test.title} />
                   </ListItem>
                 ))}

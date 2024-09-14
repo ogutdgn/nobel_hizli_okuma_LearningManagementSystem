@@ -1,51 +1,79 @@
-import React, { useState } from 'react';
-import UserRender from "./UserRender";
-import { Button, Container, Box, CircularProgress } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { Button, Container, Box } from '@mui/material';
+import { useSelector } from 'react-redux';
+import UserRender from './UserRender'; // Students componentini import ediyoruz
 
 const Users = () => {
-  const [user, setUser] = useState("students");
-  const [loading, setLoading] = useState(false);
+  const [userData, setUserData] = useState("students");
+
+  // Redux'tan kullanıcı bilgilerini çekiyoruz
+  const { user } = useSelector(state => state.auth);
+
+  // Eğer öğretmense sayfa yüklendiğinde otomatik olarak öğrencilerim datasını getir
+  useEffect(() => {
+    if (user?.isTeacher) {
+      setUserData("students");
+    }
+  }, [user]);
 
   const handleUserChange = (userType) => {
-    setLoading(true);
-    setTimeout(() => {
-      setUser(userType);
-      setLoading(false);
-    }, 250);
+    setUserData(userType);
   };
 
   return (
     <Container>
       <Box mt={4}>
         <Box mb={2}>
-          <Button
-            onClick={() => handleUserChange("students")}
-            style={{
-              backgroundColor: user === "students" ? "#4F45E4" : "#fff",
-              color: user === "students" ? "#fff" : "#4F45E4",
-              marginRight: "10px",
-              border: "1px solid #4F45E4"
-            }}
-          >
-            Öğrenciler
-          </Button>
-          <Button
-            onClick={() => handleUserChange("teachers")}
-            style={{
-              backgroundColor: user === "teachers" ? "#4F45E4" : "#fff",
-              color: user === "teachers" ? "#fff" : "#4F45E4",
-              border: "1px solid #4F45E4"
-            }}
-          >
-            Öğretmenler
-          </Button>
+          {/* Eğer kullanıcı admin ise hem öğrenciler hem öğretmenler butonları */}
+          {user?.isAdmin && (
+            <>
+              <Button
+                onClick={() => handleUserChange("students")}
+                style={{
+                  backgroundColor: userData === "students" ? "#4F45E4" : "#fff",
+                  color: userData === "students" ? "#fff" : "#4F45E4",
+                  marginRight: "10px",
+                  border: "1px solid #4F45E4"
+                }}
+              >
+                Öğrenciler
+              </Button>
+              <Button
+                onClick={() => handleUserChange("teachers")}
+                style={{
+                  backgroundColor: userData === "teachers" ? "#4F45E4" : "#fff",
+                  color: userData === "teachers" ? "#fff" : "#4F45E4",
+                  border: "1px solid #4F45E4"
+                }}
+              >
+                Öğretmenler
+              </Button>
+            </>
+          )}
+
+          {/* Eğer kullanıcı teacher ise sadece öğrencilerim butonu */}
+          {user?.isTeacher && !user?.isAdmin && (
+            <Button
+              onClick={() => handleUserChange("students")}
+              style={{
+                backgroundColor: userData === "students" ? "#4F45E4" : "#fff",
+                color: userData === "students" ? "#fff" : "#4F45E4",
+                border: "1px solid #4F45E4"
+              }}
+            >
+              Öğrencilerim
+            </Button>
+          )}
         </Box>
+
+        {/* Section içeriği */}
         <Box>
-          {loading ? <CircularProgress /> : (user === "students" ? <UserRender userType={"students"} /> : <UserRender userType={"teachers"} />)}
+          {/* Burada Students componentini userData prop'una göre render ediyoruz */}
+          <UserRender userType={userData} user={user} />
         </Box>
       </Box>
     </Container>
   );
-}
+};
 
 export default Users;

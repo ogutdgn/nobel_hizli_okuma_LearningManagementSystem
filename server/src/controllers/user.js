@@ -27,7 +27,7 @@ module.exports = {
         */
 
         // Sadece kendi kayıtlarını görebilir:
-        const customFilters = req.user?.isAdmin ? {} : { _id: req.user._id }
+        const customFilters = req.user?.isAdmin || req.user?.isTeacher ? {} : { _id: req.user._id }
 
         const data = await res.getModelList(User, customFilters)
 

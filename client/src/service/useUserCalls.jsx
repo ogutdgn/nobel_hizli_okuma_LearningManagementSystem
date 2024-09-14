@@ -23,7 +23,6 @@ const useUserCalls = () => {
     dispatch(fetchStart());
     try {
       const { data } = await axiosWithToken.get("/api/users?filter[isTeacher]=false&filter[isAdmin]=false");
-      console.log(data);
       dispatch(fetchSuccess(data.data));
     } catch (error) {
       console.error("Error fetching students:", error.response?.data || error.message);
@@ -36,7 +35,6 @@ const useUserCalls = () => {
     dispatch(fetchStart());
     try {
       const { data } = await axiosWithToken.get("/api/users?filter[isTeacher]=true");
-      console.log(data);
       dispatch(fetchSuccess(data.data));
     } catch (error) {
       console.error("Error fetching students:", error.response?.data || error.message);

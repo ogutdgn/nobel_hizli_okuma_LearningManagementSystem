@@ -23,6 +23,8 @@ router.use('/assignments', require('./assignment'))
 router.use('/courses', require('./course'))
 // enrollment:
 router.use('/enrollments', require('./enrollment'))
+//class:
+router.use('/lessons', require('./lesson'))
 // exercises
 router.use('/exercises', require('./exercises'))
 // stages

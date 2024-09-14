@@ -12,11 +12,11 @@ const permissions = require('../middlewares/permissions');
 // URL: /assignments
 
 router.route('/(:id)?')
-    .post(permissions.isAdmin, assignment.create)
+    .post(permissions.isTeacher, assignment.create)
     .get(permissions.isLogin, assignment.read)
     .put(permissions.isAdmin, assignment.update)
     .patch(permissions.isAdmin, assignment.update)
-    .delete(permissions.isAdmin, assignment.delete);
+    .delete(permissions.isTeacher, assignment.delete);
 
 router.route('/:id/isDone')
     .patch(permissions.isLogin, assignment.updateIsDone);

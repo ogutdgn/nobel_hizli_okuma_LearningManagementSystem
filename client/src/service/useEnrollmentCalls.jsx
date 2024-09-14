@@ -66,11 +66,10 @@ const useEnrollmentCalls = () => {
     }
   };
 
-  const getEnrollmentsByStudent = async (studentId) => {
+  const getEnrollmentsByTeacher = async (teacherId) => {
     try {
-      const { data } = await axiosWithToken.get(`/api/enrollments?filter[studentId]=${studentId}`);
-      console.log(data.data);
-      return data.data;
+      const { data } = await axiosWithToken.get(`/api/enrollments?filter[teacherId]=${teacherId}`);
+      dispatch(fetchSuccess(data.data));
     } catch (error) {
       console.error("Error fetching enrollments:", error.response?.data || error.message);
       toastErrorNotify("Enrollments could not be fetched.");
@@ -78,7 +77,7 @@ const useEnrollmentCalls = () => {
     }
   };
 
-  return { getEnrollments, postEnrollment, putEnrollment, removeEnrollment, getEnrollmentsByStudent };
+  return { getEnrollments, postEnrollment, putEnrollment, removeEnrollment, getEnrollmentsByTeacher };
 };
 
 export default useEnrollmentCalls;

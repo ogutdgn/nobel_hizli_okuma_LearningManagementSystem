@@ -5,6 +5,7 @@ import courseReducer from "../features/courseSlice";
 import userReducer from "../features/userSlice";
 import enrollmentReducer from "../features/enrollmentSlice";
 import assignmentReducer from "../features/assignmentSlice";
+import lessonReducer from "../features/lessonSlice";
 import exerciseReducer from "../features/exerciseSlice";
 import stageReducer from "../features/stageSlice";
 import studyReducer from '../features/studySlice';
@@ -35,6 +36,7 @@ const store = configureStore({
     user: userReducer,
     course: courseReducer,
     enrollment: enrollmentReducer,
+    lesson: lessonReducer,
     assignment: assignmentReducer,
     exercise: exerciseReducer,
     stage: stageReducer,

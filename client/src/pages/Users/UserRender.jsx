@@ -26,11 +26,15 @@ import {
 } from "@mui/material";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import useUserCalls from "../../service/useUserCalls";
+import useEnrollmentCalls from "../../service/useEnrollmentCalls";
+import Users from "./Users";
 
-const Students = ({ userType }) => {
+const UserRender = ({ userType, user }) => {
   const dispatch = useDispatch();
   const { getStudents, getTeachers, updateUser, removeUser } = useUserCalls();
+  const { getEnrollmentsByTeacher } = useEnrollmentCalls();
   const { users, loading, error } = useSelector(state => state.user);
+  const { enrollments } = useSelector(state => state.enrollment);
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedUser, setSelectedUser] = useState(null);
@@ -41,11 +45,26 @@ const Students = ({ userType }) => {
   const [filterOption, setFilterOption] = useState("");
 
   useEffect(() => {
-    userType === "students" ? getStudents() : getTeachers();
+    const fetchData = async () => {
+      if (user?.isAdmin) {
+        // Admin can view all students or teachers
+        if (userType === "students") {
+          await getStudents();
+        } else if (userType === "teachers") {
+          await getTeachers();
+        }
+      }  if (user?.isTeacher) {
+        // Teacher can only view their own students
+        await getEnrollmentsByTeacher(user._id);
+      }
+    };
+
+    fetchData();
   }, [dispatch, userType]);
 
+
   useEffect(() => {
-    let filtered = users;
+    let filtered = user?.isTeacher ? enrollments.map(enrollment => enrollment.studentId) : users;
     if (searchQuery) {
       filtered = filtered.filter(user =>
         user.firstName.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -60,7 +79,7 @@ const Students = ({ userType }) => {
       filtered = filtered.sort((a, b) => a.firstName.localeCompare(b.firstName));
     }
     setFilteredUsers(filtered);
-  }, [searchQuery, filterOption, users]);
+  }, [searchQuery, filterOption, users, enrollments, filteredUsers, user?.isTeacher]);
 
   const handleSearchChange = (event) => {
     setSearchQuery(event.target.value);
@@ -79,7 +98,6 @@ const Students = ({ userType }) => {
     setAnchorEl(null);
     setSelectedUser(null);
   };
-
 
   const handleBanUser = () => {
     setOpenBanDialog(true);
@@ -216,4 +234,4 @@ const Students = ({ userType }) => {
   );
 };
 
-export default Students;
+export default UserRender;

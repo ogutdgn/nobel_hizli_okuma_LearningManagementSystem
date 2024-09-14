@@ -74,14 +74,15 @@ module.exports = {
 
                 } else {
 
-                    res.errorStatusCode = 401
-                    throw new Error('This account is not active.')
+                    res.status(401).send({
+                        error: "This account is banned.",
+                    })
                 }
 
             } else {
-
-                res.errorStatusCode = 401
-                throw new Error('Wrong username or password.')
+                res.status(401).send({
+                    error: "Wrong username or password",
+                })
             }
 
         } else {

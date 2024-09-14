@@ -29,7 +29,19 @@ const useAuthCalls = () => {
       const { data } = await axiosPublic.post("/api/auth/login/", userInfo)
       dispatch(loginSuccess(data))
       toastSuccessNotify("Login işlemi basarili.")
-      navigate("/nobelhizliokuma")
+      
+      if (data.user.isActive){
+        if (data.user.isAdmin){
+          navigate("nobelhizliokuma/admin-dashboard")
+        } else if (data.user.isTeacher) {
+          navigate("nobelhizliokuma/ogretmen-paneli")
+        } else {
+          navigate("nobelhizliokuma/ogrenci-paneli")
+        }
+      } else {
+        navigate("/banned")
+      }
+
     } catch (error) {
       dispatch(fetchFail())
       toastErrorNotify("Login işlemi başarisiz oldu.")
@@ -46,7 +58,7 @@ const useAuthCalls = () => {
       // )
       const { data } = await axiosPublic.post("/api/users/", userInfo)
       dispatch(registerSuccess(data))
-      navigate("/nobelhizliokuma")
+      navigate("")
     } catch (error) {
       dispatch(fetchFail())
     }
@@ -58,7 +70,7 @@ const useAuthCalls = () => {
       await axiosWithToken("/api/auth/logout/")
       toastSuccessNotify("Çıkış işlemi başarili.")
       dispatch(logoutSuccess())
-      // navigate("/")
+      navigate("/")
     } catch (error) {
       dispatch(fetchFail())
       toastErrorNotify("Çıkış işlemi başarisiz oldu.")

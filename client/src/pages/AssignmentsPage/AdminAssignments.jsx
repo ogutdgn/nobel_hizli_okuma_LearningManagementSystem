@@ -34,15 +34,19 @@ import RemoveIcon from '@mui/icons-material/Remove';
 import LowPriorityIcon from '@mui/icons-material/LowPriority';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import './Assignments.css';
+import useEnrollmentCalls from "../../service/useEnrollmentCalls";
 
 const AdminAssignments = () => {
   const dispatch = useDispatch();
   const { getAssignments, postAssignment, removeAssignment } = useAssignmentCalls();
-  const { getStudents } = useUserCalls();
+  const { getStudents } = useUserCalls(); // Öğretmenlere ait öğrenci çağırma fonksiyonu
+  const { getEnrollmentsByTeacher } = useEnrollmentCalls(); // Öğretmenlere ait öğrenci çağırma fonksiyonu
+
   const { getExercises } = useExerciseCalls();
   const { assignments, loading, error, deletingId } = useSelector(state => state.assignment);
   const { user } = useSelector(state => state.auth);
-  const { users } = useSelector(state => state.user);
+  const { users } = useSelector(state => state.user); // users ve enrollments verisini çekiyoruz
+  const { enrollments } = useSelector(state => state.enrollment);
   const { exercises } = useSelector(state => state.exercise);
 
   const [deleting, setDeleting] = useState(false);
@@ -55,14 +59,19 @@ const AdminAssignments = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [formError, setFormError] = useState("");
   const [isSortingEnabled, setIsSortingEnabled] = useState(false);
-  const [filterStatus, setFilterStatus] = useState('all'); // Yeni eklenen durum filtreleme
+  const [filterStatus, setFilterStatus] = useState('all');
   const [anchorEl, setAnchorEl] = useState(null);
 
   useEffect(() => {
     getAssignments();
-    getStudents();
+    if (user?.isTeacher) {
+      getEnrollmentsByTeacher(user._id);
+      console.log("asdad"); // Öğretmen kendi öğrencilerini çeker
+    } else {
+      getStudents(); // Admin tüm öğrencileri çeker
+    }
     getExercises();
-  }, [dispatch]);
+  }, [dispatch, user]);
 
   const handleDelete = async (assignmentId) => {
     if (!deleting) {
@@ -110,7 +119,7 @@ const AdminAssignments = () => {
   };
 
   const handleExerciseChange = (selectedOptions) => {
-    const selectedExercises = selectedOptions ? selectedOptions.map(option => option.value) : [];
+    const selectedExercises = selectedOptions ? selectedOptions?.map(option => option.value) : [];
     setNewAssignment({ ...newAssignment, taskContent: selectedExercises });
   };
 
@@ -141,10 +150,16 @@ const AdminAssignments = () => {
     handleFilterMenuClose();
   };
 
-  const studentOptions = users.map(user => ({
-    value: user._id,
-    label: `${user.firstName} ${user.lastName}`
-  }));
+  // Öğretmense sadece kendi öğrencilerini, adminse tüm öğrencileri filtreleme
+  const studentOptions = user?.isTeacher
+    ? enrollments?.map(enrollment => ({
+        value: enrollment.studentId._id,
+        label: `${enrollment.studentId.firstName} ${enrollment.studentId.lastName}`
+      }))
+    : users.map(user => ({
+        value: user._id,
+        label: `${user.firstName} ${user.lastName}`
+      }));
 
   const exerciseOptions = exercises.map(exercise => ({
     value: exercise.title,
@@ -153,12 +168,22 @@ const AdminAssignments = () => {
 
   const filteredAssignments = assignments.filter(assignment => {
     const taskContentArray = Array.isArray(assignment.taskContent) ? assignment.taskContent : [];
+  
+    // Eğer öğretmen ise sadece kendi öğrencilerinin ödevlerini filtrele
+    const isTeacherViewingOwnStudents = user?.isTeacher 
+      ? enrollments.some(enrollment => enrollment.studentId._id === assignment.studentId?._id)
+      : true; // Eğer admin ise tüm ödevleri göster
+  
     const searchTermMatch = assignment.studentId?.username?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       assignment.teacherId?.username?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       taskContentArray.some(content => content.toLowerCase().includes(searchTerm.toLowerCase()));
+      
     const statusMatch = filterStatus === 'all' || (filterStatus === 'completed' ? assignment.isDone : !assignment.isDone);
-    return searchTermMatch && statusMatch;
+  
+    // Hem arama hem de filtreleme koşullarına göre ödevleri döndür
+    return isTeacherViewingOwnStudents && searchTermMatch && statusMatch;
   });
+  
 
   if (loading) return <p>Yükleniyor...</p>;
   if (error) return <p>Ödevler yüklenirken hata oluştu.</p>;
@@ -196,7 +221,7 @@ const AdminAssignments = () => {
             />
             <IconButton
               onClick={() => setIsSortingEnabled(!isSortingEnabled)}
-              disabled={newAssignment.taskContent.length < 2} // Sadece 2 veya daha fazla egzersiz varsa aktif
+              disabled={newAssignment.taskContent.length < 2}
             >
               <LowPriorityIcon />
             </IconButton>

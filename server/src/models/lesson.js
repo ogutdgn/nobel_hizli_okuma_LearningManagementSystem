@@ -5,13 +5,7 @@
 const { mongoose } = require('../configs/dbConnection')
 
 // User Model:
-const EnrollmentSchema = new mongoose.Schema({
-
-    studentId: {
-        type: mongoose.Schema.Types.ObjectId,  
-        ref: "User",
-        required: true,
-    },
+const LessonSchema = new mongoose.Schema({
 
     teacherId: {
         type: mongoose.Schema.Types.ObjectId,  
@@ -19,8 +13,14 @@ const EnrollmentSchema = new mongoose.Schema({
         required: true,
     },
 
+    studentId: {
+        type: mongoose.Schema.Types.ObjectId,  
+        ref: "User",
+        required: true,
+    },
 
-}, { collection: 'enrollments', timestamps: true })
+
+}, { collection: 'lessons', timestamps: true })
 
 /* ------------------------------------------------------- */
-module.exports = mongoose.model('Enrollment', EnrollmentSchema);
+module.exports = mongoose.model('Lesson', LessonSchema);

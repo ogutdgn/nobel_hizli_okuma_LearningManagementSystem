@@ -8,13 +8,12 @@ import { useSelector } from "react-redux";
 import { Outlet, useNavigate } from "react-router-dom";
 import useAuthCalls from "../service/useAuthCalls";
 import MenuListItems from "../components/MenuListItems";
-import nobelimg from "../assets/logos/nobel_dark.png"
+import nobelimg from "../assets/logos/nobel_dark.png";
 
 const Dashboard = ({ role }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { user } = useSelector((state) => state.auth);
   const { logout } = useAuthCalls();
-
   const navigate = useNavigate();
 
   return (
@@ -32,7 +31,6 @@ const Dashboard = ({ role }) => {
           >
             <div className="fixed inset-0 bg-gray-600 bg-opacity-75" />
           </Transition.Child>
-
           <div className="fixed inset-0 flex z-40">
             <Transition.Child
               as={Fragment}
@@ -72,14 +70,12 @@ const Dashboard = ({ role }) => {
                     <MenuListItems role={role} />
                   </nav>
                 </div>
-               
               </Dialog.Panel>
             </Transition.Child>
           </div>
         </Dialog>
       </Transition.Root>
 
-      {/* Static sidebar for desktop */}
       <div className="hidden lg:flex lg:flex-shrink-0">
         <div className="flex flex-col w-64">
           <div className="flex flex-col h-0 flex-1 bg-indigo-600">
@@ -91,22 +87,6 @@ const Dashboard = ({ role }) => {
                 <MenuListItems role={role} />
               </nav>
             </div>
-            {/* <div className="flex-shrink-0 flex bg-indigo-800 p-4">
-              <button
-                type="button"
-                className="group flex items-center w-full"
-                onClick={logout}
-              >
-                <span className="flex-shrink-0 inline-block h-10 w-10 rounded-full overflow-hidden bg-white-600 group-hover:bg-white-500">
-                  <svg className="h-full w-full text-indigo-600 group-hover:text-indigo-400" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M24 0v24H0V0h24zm-4.75 12.25H15V8l-5 4 5 4v-3.25h4.25v-1.5zM12 0a9 9 0 0 1 9 9H3a9 9 0 0 1 9-9zM12 24a9 9 0 0 1-9-9h18a9 9 0 0 1-9 9z" />
-                  </svg>
-                </span>
-                <div className="ml-3">
-                  <p className="text-base font-medium text-white ">Sign out</p>
-                </div>
-              </button>
-            </div> */}
           </div>
         </div>
       </div>
@@ -123,17 +103,12 @@ const Dashboard = ({ role }) => {
           </button>
           <div className="flex-1 px-4 flex justify-between">
             <div className="flex items-center">
-              <h1 className="text-xl font-semibold text-gray-900">{role === "admin" ? "Admin Paneli" : "Öğrenci Paneli"}</h1>
+              <h1 className="text-xl font-semibold text-gray-900">
+                {role === "admin" ? "Admin Paneli" : role === "teacher" ? "Öğretmen Paneli" : "Öğrenci Paneli"}
+              </h1>
             </div>
             <div className="ml-4 flex items-center md:ml-6">
-              {/* <button className="bg-white p-1 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                <span className="sr-only">View notifications</span>
-                <NotificationsOutlinedIcon/>
-                <svg className="h-6 w-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M10 2a7 7 0 00-7 7v5a2 2 0 01-2 2h14a2 2 0 01-2-2V9a7 7 0 00-7-7zm0 16a2 2 0 002-2H8a2 2 0 002 2z" />
-                </svg>
-              </button> */}
-              <button><NotificationsOutlinedIcon/></button>
+              <button><NotificationsOutlinedIcon /></button>
               <div className="hidden lg:block lg:h-6 lg:w-px lg:bg-gray-900/10 mx-4" aria-hidden="true" />
               <Menu as="div" className="relative">
                 <Menu.Button className="max-w-xs bg-white flex items-center text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
@@ -152,7 +127,7 @@ const Dashboard = ({ role }) => {
                 >
                   <Menu.Items className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
                     <div className="py-1">
-                    <Menu.Item>
+                      <Menu.Item>
                         {({ active }) => (
                           <button
                             onClick={() => navigate(role === 'admin' ? '/nobelhizliokuma/admin-dashboard/profil' : '/nobelhizliokuma/profil')}
@@ -182,9 +157,6 @@ const Dashboard = ({ role }) => {
 
         <main className="flex-1 relative z-0 overflow-y-auto focus:outline-none">
           <div className="py-6">
-            {/* <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
-              <h1 className="text-2xl font-semibold text-gray-900">{role === "admin" ? "Admin Paneli" : "Öğrenci Paneli"}</h1>
-            </div> */}
             <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
               <Outlet />
             </div>

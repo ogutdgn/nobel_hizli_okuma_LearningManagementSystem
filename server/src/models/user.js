@@ -98,10 +98,6 @@ const UserSchema = new mongoose.Schema({
         default: false,
     },
 
-    courseTeacher: {
-        type: String,
-        default: undefined,
-    }
 
 }, {
     collection: 'users',
